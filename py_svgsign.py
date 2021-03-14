@@ -32,7 +32,11 @@ def gen_sign_hodlers():
     print(r)
     if r.status_code == 200:
         parsed_html = BeautifulSoup(r.content, 'html.parser')
-        hodlers = re.sub("\D", "", parsed_html.body.find('div', attrs={'id':'ContentPlaceHolder1_tr_tokenHolders'}).text)
+
+        hodlers = parsed_html.body.find('div', attrs={'id':'ContentPlaceHolder1_tr_tokenHolders'}).text.split('(', 1)[0]
+
+        hodlers = hodlers.split(':', 1)[1].strip()
+
         print(hodlers)
 
         return alter_svg_text(hodlers)
